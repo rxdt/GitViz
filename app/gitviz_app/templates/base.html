@@ -5,6 +5,15 @@
   </head>
   
   <body>
+    {% if current_user.is_authenticated() or 'remember_token' in flask_session %}
+      <p>Logged in as {{ current_user.username }} </p>
+      <li><a href="/logout">Log Out</a></li>
+    {% else %}
+      <li><p>Need to sign up for GitViz? <a href="/signup">SIGN UP</a></p></li>
+      <li><a href="/">Login<a></li>
+    {% endif %}
+
+
     {% block body %}
     {% endblock %}
   </body>

@@ -1,12 +1,14 @@
 {% extends 'base.html' %}
 {% block body %} 
   <form action="/" method="POST">
-      <label>Enter your username to login: <input type="text" name="username"></label>
-      <label>Enter your password to login: <input type="text" name="password"></label>
-
-      <input type="submit">
+    <h2>Login</h2>
+      {{ form.hidden_tag() }}
+      {{ form.username.label }}: {{ form.username(placeholder='your GitViz username') }}
+      <br>
+      {{ form.password.label }}: {{ form.password(placeholder='password') }}
+      <br>
+      <input type="submit" name="submit">
   </form>
 
-  <p>Need to sign up for GitViz? <a href="\signup">SIGN UP</a></p>
-  
+
 {% endblock %}

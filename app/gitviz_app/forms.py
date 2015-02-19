@@ -13,7 +13,6 @@ class SignupForm(Form):
   confirm = PasswordField('Repeat Password')
   submit = SubmitField("Submit")
 
-
   def __init__(self, *args, **kwargs):
     Form.__init__(self, *args, **kwargs)
  
@@ -25,7 +24,25 @@ class SignupForm(Form):
     if user:
       self.username.errors.append("That username is already taken")
       return False
-    else:
+    return True
+
+class LoginForm(Form):
+  username = TextField('Username', [validators.Required()])
+  password = PasswordField('Password', [validators.Required()])
+  submit = SubmitField("Submit")
+
+  def __init__(self, *args, **kwargs):
+      Form.__init__(self, *args, **kwargs)
+
+  def validate(self):
+      if not Form.validate(self):
+          return False
+
+      user = User.query.filter_by(username=self.username.data).first()
+      if not user or not user.check_password(self.password.data):
+          self.username.errors.append('Unknown login info')
+          return False
+      self.user = user
       return True
 
 class RequestVisualization(Form):
