@@ -16,6 +16,7 @@ session = scoped_session(sessionmaker(bind=ENGINE, autocommit = False, autoflush
 Base = declarative_base()
 Base.query = session.query_property()
 
+db = SQLAlchemy()
 
 
 
@@ -26,10 +27,8 @@ class User(Base):
   username = Column(String(64), nullable=False) # make this false
   password = Column(String(64), nullable=False) # make this false
 
-  def __init__(self, firstname, lastname, email, password):
-    self.firstname = firstname.title()
-    self.lastname = lastname.title()
-    self.email = email.lower()
+  def __init__(self, username, password):
+    self.username = username.title()
     self.set_password(password)
 
   def set_password(self, password):

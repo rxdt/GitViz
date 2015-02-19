@@ -1,11 +1,13 @@
 from flask import Flask, session, render_template, url_for, request, redirect, flash
 from flask import Flask, render_template
-from forms import SignupForm
-
-from user_model import User
+from forms import SignupForm, RequestVisualization
+from user_model import User, db
 import os
+import sys
+import sqlalchemy.exc
 
 app = Flask(__name__)
+db.init_app(app)
 app.secret_key = os.urandom(24)
 
 @app.route('/', methods=['GET', 'POST'])
@@ -37,7 +39,7 @@ def logout():
 
   return redirect(url_for('/'))
 
-@app.route("/signup", methods=['GET', 'POST'])
+@app.route('/signup', methods=['GET', 'POST'])
 def signup():
   form = SignupForm()
 
@@ -46,16 +48,27 @@ def signup():
       flash('All fields are required.')
       return render_template('signup.html', form=form)
     else:
-      return 'User successfully created.'
+      try:
+        newuser = User(form.username.data, form.password.data)
+        db.session.add(newuser)
+        db.session.commit()
+        session['username'] = newuser.username
+        flash('User successfully signed up.')
+        return redirect(url_for('visualizer'))
+      except sqlalchemy.exc.SQLAlchemyError, e:
+        print 'There was an issue creating the user.  Error %s. ' % e   
+        flash('There was an issue creating the user. Try again')
+        return render_template('signup.html', form=form)
+
+      
+
   if request.method == 'GET':
     return render_template('signup.html', form=form)
 
-    # email = request.form['email']
-    # password = request.form['password']
-    # u = User(email=email, password=password)
-    # db_session.add(u) 
-    # db_session.commit()
-    # return redirect("/")
+
+@app.route('/visualizer')
+def visualize():
+  form = RequestVisualization()
 
 
 if __name__ == '__main__':
