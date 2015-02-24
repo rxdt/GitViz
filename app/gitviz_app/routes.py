@@ -35,6 +35,7 @@ def login():
         flash(u'Successfully logged in as %s' % form.user.username)
         return redirect(url_for('visualize'))
   return render_template('login.html', form=form)
+  # return github.authorize()
 
 @app.route("/logout")
 @login_required
@@ -73,7 +74,7 @@ def visualize():
   if 'username' not in flask_session:
     return redirect(url_for('login'))
   # return render_template('visualize.html', client_id=app.config['GITHUB_CLIENT_ID'], client_secret=app.config['GITHUB_CLIENT_SECRET'])
-  return github.authorize()
+  # return github.authorize()
 
 @github.access_token_getter
 def token_getter():
