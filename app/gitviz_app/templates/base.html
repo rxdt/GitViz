@@ -5,6 +5,16 @@
   </head>
   
   <body>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul class=flash>
+        {% for message in messages %}
+          <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
     {% if current_user.is_authenticated() or 'remember_token' in flask_session %}
       <p>Logged in as {{ current_user.username }} </p>
       <li><a href="/logout">Log Out</a></li>
