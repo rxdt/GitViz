@@ -1,5 +1,5 @@
-{
-  "0": {
+[
+  {
     "A": [
       ".gitignore", 
       "README.md", 
@@ -14,19 +14,19 @@
       "app/user_model.pyc"
     ]
   }, 
-  "1": {
+  {
     "M": [
       ".gitignore"
     ]
   }, 
-  "2": {
+  {
     "D": [
       ".gitignore", 
       "app/forms.pyc", 
       "app/user_model.pyc"
     ]
   }, 
-  "3": {
+  {
     "A": [
       ".gitignore", 
       "app/templates/visualizer.html"
@@ -38,7 +38,7 @@
       "app/user_model.py"
     ]
   }, 
-  "4": {
+  {
     "A": [
       "app/gitviz_app/__init__.py", 
       "app/gitviz_app/forms.py", 
@@ -51,7 +51,7 @@
       "app/gitviz_app/user_model.py"
     ]
   }, 
-  "5": {
+  {
     "A": [
       "app/README.md", 
       "app/gitviz_app/parse_commit_log.py", 
@@ -68,7 +68,7 @@
       "app/gitviz_app/user_model.py"
     ]
   }, 
-  "6": {
+  {
     "D": [
       "app/gitviz_app/parse_commit_log.py", 
       "app/gitviz_app/templates/gh_auth.html", 
@@ -78,7 +78,7 @@
       "app/gitviz_app/routes.py"
     ]
   }, 
-  "7": {
+  {
     "D": [
       "README.md", 
       "app/forms.py", 
@@ -95,5 +95,11 @@
       "app/gitviz_app/templates/base.html", 
       "requirements.txt"
     ]
+  }, 
+  {
+    "A": [
+      "app/gitviz_app/commits_json.txt", 
+      "app/gitviz_app/parse_log.py"
+    ]
   }
-}
+]

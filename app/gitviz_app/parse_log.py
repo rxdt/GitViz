@@ -6,19 +6,17 @@ from sys import argv
 import re
 import json
 
-''' Creates a dictionary named commits_dict made up of dictionaries. 
+''' Creates a list named commits_list made up of dictionaries. 
 
-The outer dictionary key is a sequential commit number (0, n). 
-The outer dictionary's value is one commit.
+The outer data structure is a list with a dictionary in each index.
 
-Each inner dictionary is one commit whose keys are 'A', 'M', or 'D'.
+Each inner dictionary represents one commit.
+Each inner dictionary has possible keys of 'A', 'M', or 'D'.
 Each inner dictionary's values are a list of the files that were Added, Modified, or deleted.
 '''
 def parse_log_to_dict(filename):
-    i = 0
-    commits_dict = {}
+    commits_list = []
     pattern = re.compile('[A|D|M]\t')
-
 
     with open(filename, 'r') as f:
       for line in f:
@@ -26,11 +24,9 @@ def parse_log_to_dict(filename):
 
         if line.startswith('commit '):
           single_commit = {}
-          commits_dict[i] = single_commit
-          i = i+1
+          commits_list.append(single_commit)
 
         if match is not None:
-          print '         FOUND'
           commit_process_key, commit_file_affected = line.split('\t', 1)
 
           if commit_process_key in single_commit:
@@ -38,29 +34,20 @@ def parse_log_to_dict(filename):
           else:
             single_commit[commit_process_key.strip()] = [commit_file_affected.rstrip()]
 
-
     f.close()
 
-    # reverse keys so commit 0 is the first commit
-    ordered_commits_dict = {}
-    j = len(commits_dict)-1 
-    for key in commits_dict:
-      ordered_commits_dict[j] = commits_dict[key]
-      j = j-1
-
-    del commits_dict
-    return ordered_commits_dict
+    return commits_list[::-1] # return list reversed with initial commit at index 0
     
     
 
 def main():
     filename = '/Users/rxdt/log.txt'
 
-    commits_dict = parse_log_to_dict(filename)
-    print commits_dict
+    commits_list = parse_log_to_dict(filename)
+    print commits_list
 
     with open('commits_json.txt', 'w') as outfile:
-      outfile.write(unicode(json.dumps(commits_dict, sort_keys=True, indent=2)))
+      outfile.write(unicode(json.dumps(commits_list, sort_keys=True, indent=2)))
 
 
 
